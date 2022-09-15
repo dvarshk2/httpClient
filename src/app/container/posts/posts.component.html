@@ -1,0 +1,44 @@
+<div class="container">
+    <h2 class="bg-primary text-white">HTTP Module</h2>
+    <div class="row">
+        <div class="col-sm-12">
+            <form #postForm="ngForm" (ngSubmit)="onSubmit(postForm.value)">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input ngModel type="text" name="title" id="title" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="content">Content</label>
+                    <textarea ngModel name="content" id="content"  rows="3" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" *ngIf="!isUpdating; else updateBtn">
+                        Submit Post
+                    </button>
+                    <ng-template #updateBtn>
+                        <button type="button" class="btn btn-primary" (click)="onupdatePost()">
+                            Update Post
+                        </button>
+                    </ng-template>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row" *ngIf="postsArr.length > 0; else noPosts">
+        <div class="col-sm-8 offset-sm-2" *ngFor="let post of postsArr">
+            <div class="card mb-4">
+                <div class="card-header">{{post.title}}</div>
+                <div class="card-body">{{post.content}}
+                    <div class="icons">
+                        <i class="fas fa-edit text-success mr-2" (click)="editpost(post)"></i>
+                        <i class="fas fa-trash text-danger" (click)="onPostDelete(post)"></i>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #noPosts>
+    <p class="alert alert-danger">No Post Available</p>
+</ng-template>
